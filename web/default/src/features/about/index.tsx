@@ -22,6 +22,7 @@ import { Activity, ArrowRight, Network, Route, Sparkles } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { AnimateInView } from "@/components/animate-in-view";
+import { BrandMark, BrandWordmark } from "@/components/brand-wordmark";
 import { PublicLayout } from "@/components/layout";
 import { RichContent } from "@/components/rich-content";
 import { Button } from "@/components/ui/button";
@@ -146,48 +147,41 @@ function EmptyAboutState() {
             )}
           </p>
 
-          <div className="border-border/50 mt-8 space-y-3 border-t pt-7 text-xs sm:text-sm">
-            <p className="text-muted-foreground">
-              © {currentYear}{" "}
-              <a
-                href="https://github.com/QuantumNous"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                {t("QuantumNous")}
-              </a>{" "}
-              {t("| Based on")}{" "}
-              <a
-                href="https://github.com/songquanpeng/one-api"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                {t("One API")}
-              </a>{" "}
-              © 2023{" "}
-              <a
-                href="https://github.com/songquanpeng"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                {t("JustSong")}
-              </a>
-            </p>
-            <p className="text-muted-foreground">
-              {t("This project must be used in compliance with the")}{" "}
-              <a
-                href="https://github.com/QuantumNous/new-api/blob/main/LICENSE"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                {t("AGPL v3.0 License")}
-              </a>
-              .
-            </p>
+          <div className="border-border/50 mt-8 flex flex-col gap-5 border-t pt-7 sm:flex-row sm:items-center sm:justify-between">
+            <Link
+              to="/"
+              className="group mx-auto flex items-center gap-3 text-left sm:mx-0"
+            >
+              <span className="border-border/60 bg-background flex size-10 items-center justify-center rounded-2xl border p-1.5 shadow-sm transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-105">
+                <BrandMark className="size-full" />
+              </span>
+              <span>
+                <BrandWordmark name="HUICHUAN" className="text-sm" />
+                <span className="text-muted-foreground mt-0.5 block text-[11px]">
+                  {t("Powerful API Management Platform")}
+                </span>
+              </span>
+            </Link>
+
+            <div className="text-muted-foreground flex flex-col items-center gap-3 text-xs sm:items-end">
+              <nav className="flex items-center gap-1">
+                <Link
+                  to="/"
+                  className="hover:bg-background hover:text-foreground rounded-lg px-3 py-1.5 transition-colors"
+                >
+                  {t("Home")}
+                </Link>
+                <Link
+                  to="/pricing"
+                  className="hover:bg-background hover:text-foreground rounded-lg px-3 py-1.5 transition-colors"
+                >
+                  {t("View Pricing")}
+                </Link>
+              </nav>
+              <span>
+                &copy; {currentYear} HUICHUAN. {t("footer.defaultCopyright")}
+              </span>
+            </div>
           </div>
         </AnimateInView>
       </div>
