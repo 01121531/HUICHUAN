@@ -22,6 +22,29 @@ func RegisterScheduledSystemTasks() {
 	service.RegisterSystemTaskHandler(modelUpdateHandler{})
 	service.RegisterSystemTaskHandler(midjourneyPollHandler{})
 	service.RegisterSystemTaskHandler(asyncTaskPollHandler{})
+	service.RegisterSystemTaskHandler(proxyLogAnalyzeHandler{})
+}
+
+// proxyLogAnalyzeHandler incrementally derives proxy health from the same red
+// timing rules shown by the generic log page. The system-task lease guarantees
+// one analyzer across multiple master instances.
+type proxyLogAnalyzeHandler struct{}
+
+func (proxyLogAnalyzeHandler) Type() string { return model.SystemTaskTypeProxyLogAnalyze }
+
+func (proxyLogAnalyzeHandler) Enabled() bool { return model.HasEnabledManagedProxies() }
+
+func (proxyLogAnalyzeHandler) Interval() time.Duration { return service.ProxyLogAnalysisInterval() }
+
+func (proxyLogAnalyzeHandler) NewPayload() any { return nil }
+
+func (proxyLogAnalyzeHandler) Run(ctx context.Context, task *model.SystemTask, runnerID string) {
+	summary, err := service.RunProxyLogAnalysisTask(ctx)
+	if err != nil {
+		finishSystemTaskHandler(task, runnerID, model.SystemTaskStatusFailed, summary, err)
+		return
+	}
+	finishSystemTaskHandler(task, runnerID, model.SystemTaskStatusSucceeded, summary, nil)
 }
 
 // channelTestHandler runs the scheduled "test all channels" job. Enablement and
