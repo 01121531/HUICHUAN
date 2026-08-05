@@ -23,6 +23,8 @@ const (
 	SystemTaskTypeAsyncTaskPoll    = "async_task_poll"
 	SystemTaskTypeProxyLogAnalyze  = "proxy_log_analyze"
 	SystemTaskTypeProxyHealthCheck = "proxy_health_check"
+	SystemTaskTypeProxyDailyCheck  = "proxy_daily_health_check"
+	SystemTaskTypeProxyManualCheck = "proxy_manual_health_check"
 )
 
 var ErrSystemTaskLockLost = errors.New("system task lock lost")
